@@ -1,0 +1,44 @@
+﻿@model ASP.NET.MVC.SelectListsExample.Models.ItemListModelViewModel
+
+@{
+    ViewBag.Title = Model.PageTitle;
+}
+
+<h2>Model.PageTitle</h2>
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.PageTitle)
+    @Html.HiddenFor(model => model.OptionLabel)
+    <fieldset>
+            <legend></legend>
+
+        <div class="display-label">Select a continent!</div>
+        <div class="display-field">
+            @Html.DropDownListFor(model => model.SelectedContinentID, new SelectList(Model.ContinentList, "ContinentID", "Name", Model.SelectedContinentID), Model.OptionLabel)
+        </div>
+        <div class="display-label">Select animals living on the selected continent!</div>
+        <div class="display-field">
+            @Html.ListBoxFor(model => model.SelectedAnimalsIDs, new SelectList(Model.AnimalList, "AnimalID", "Name", Model.SelectedAnimalsIDs), new { size = 12 })
+        </div>
+            <p>
+                <input type="submit" value="Submit" />
+            </p>
+    </fieldset>
+}
+<div>
+    @if (!Model.ContinentName.IsEmpty())
+    {
+        <p>The selected continent is: <strong>@Model.ContinentName</strong></p>
+    }
+    @if (Model.AnimalNames.Count() > 0)
+    {
+        <p>The selected animals are:</p>
+        <ul>
+            @foreach (var animalName in Model.AnimalNames)
+	        {
+                <li>@animalName</li>
+	        }
+        </ul>
+    }
+</div>
+
